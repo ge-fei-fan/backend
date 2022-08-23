@@ -84,26 +84,26 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "cat",
-        "USER": "geff",
-        "PASSWORD": "123456",
-        "HOST": "192.168.2.100",
-        "PORT": 3306,
-    }
-}
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.mysql",
 #         "NAME": "cat",
-#         "USER": "root",
+#         "USER": "geff",
 #         "PASSWORD": "123456",
-#         "HOST": "127.0.0.1",
+#         "HOST": "192.168.2.100",
 #         "PORT": 3306,
 #     }
 # }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "cat",
+        "USER": "root",
+        "PASSWORD": "123456",
+        "HOST": "127.0.0.1",
+        "PORT": 3306,
+    }
+}
 AUTH_USER_MODEL = "user.Users"
 
 
