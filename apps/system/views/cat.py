@@ -29,6 +29,7 @@ class WeightSerializer(ModelSerializer):
 class CatViewSet(ModelViewSet):
     queryset = Cat.objects.all()
     serializer_class = CatSerializer
+    filterset_fields = ("id",)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -36,11 +37,24 @@ class CatViewSet(ModelViewSet):
         self.perform_create(serializer)
         return Response({"code": 200, "msg": "新增成功", "data": serializer.data})
 
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+
+        return Response({"code": 200, "msg": "更新成功", "data": serializer.data})
+
+
 class WeightViewset(ModelViewSet):
 
     queryset = Weight.objects.all()
     serializer_class = WeightSerializer
-    filterset_fields = ("cat",)
+    filterset_fields = ("cat", "date")
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
@@ -54,6 +68,11 @@ class WeightViewset(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response({"code": 200, "msg": "新增成功", "data": serializer.data})
+
+    def update(self, request, *args, **kwargs):
+
+        res = super().update(request, *args, **kwargs)
+        return Response({"code": 200, "msg": "修改成功", "data": res.data})
 
 
 

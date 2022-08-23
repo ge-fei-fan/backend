@@ -29,4 +29,10 @@ class DailyViewSet(ModelViewSet):
         return Response({"code": 200, "msg": "新增成功", "data": serializer.data})
 
 
+    def update(self, request, *args, **kwargs):
+
+        res = super(DailyViewSet, self).update(request, *args, **kwargs)
+        return Response({"code": 200, "msg": "更新成功", "data": res.data})
+
+
 
