@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'apps.system',
     'django_filters',
+    'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -84,26 +86,26 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": "cat",
-#         "USER": "geff",
-#         "PASSWORD": "123456",
-#         "HOST": "192.168.2.100",
-#         "PORT": 3306,
-#     }
-# }
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "cat",
-        "USER": "root",
+        "USER": "geff",
         "PASSWORD": "123456",
-        "HOST": "127.0.0.1",
+        "HOST": "192.168.2.100",
         "PORT": 3306,
     }
 }
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "cat",
+#         "USER": "root",
+#         "PASSWORD": "123456",
+#         "HOST": "127.0.0.1",
+#         "PORT": 3306,
+#     }
+# }
 AUTH_USER_MODEL = "user.Users"
 
 
@@ -152,6 +154,7 @@ REST_FRAMEWORK = {
     # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     # 'PAGE_SIZE': 2
     "DEFAULT_PAGINATION_CLASS": "apps.system.utils.pagination.CustomPagination",
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
@@ -187,3 +190,25 @@ CORS_ORIGIN_ALLOW_ALL = True
 #跨域允许cookie
 CORS_ALLOW_CREDENTIALS = True
 ALLOWED_HOSTS = ['*']
+
+SWAGGER_SETTINGS = {
+    # 基础样式
+    "SECURITY_DEFINITIONS": {"basic": {"type": "basic"}},
+    # 如果需要登录才能够查看接口文档, 登录的链接使用restframework自带的.
+    "LOGIN_URL": "apiLogin/",
+    # 'LOGIN_URL': 'rest_framework:login',
+    "LOGOUT_URL": "rest_framework:logout",
+    # 'DOC_EXPANSION': None,
+    # 'SHOW_REQUEST_HEADERS':True,
+    # 'USE_SESSION_AUTH': True,
+    # 'DOC_EXPANSION': 'list',
+    # 接口文档中方法列表以首字母升序排列
+    "APIS_SORTER": "alpha",
+    # 如果支持json提交, 则接口文档中包含json输入框
+    "JSON_EDITOR": True,
+    # 方法列表字母排序
+    "OPERATIONS_SORTER": "alpha",
+    "VALIDATOR_URL": None,
+    "AUTO_SCHEMA_TYPE": 2,  # 分组根据url层级分，0、1 或 2 层
+    "DEFAULT_AUTO_SCHEMA_CLASS": "apps.system.utils.swagger.CustomSwaggerAutoSchema",
+}
