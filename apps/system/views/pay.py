@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import datetime
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.serializers import ModelSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
@@ -20,7 +20,7 @@ class PayViewSet(ModelViewSet):
     serializer_class = PaySerializer
     queryset = Pay.objects.all()
     filterset_fields = ("date",)
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def create(self, request, *args, **kwargs):
         if request.data["date"] == "":
@@ -36,7 +36,7 @@ class PayViewSet(ModelViewSet):
         super().destroy(request, *args, **kwargs)
         return Response({"code": 200, "msg": "删除成功", "data": []})
 
-    @action(methods=["GET"], detail=False, permission_classes=[IsAuthenticated])
+    @action(methods=["GET"], detail=False, permission_classes=[IsAuthenticatedOrReadOnly])
     def monthly_payment(self, request):
         year = request.query_params["year"]
         month = request.query_params["month"]

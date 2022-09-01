@@ -1,7 +1,7 @@
 import datetime
 
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
@@ -30,6 +30,7 @@ class CatViewSet(ModelViewSet):
     queryset = Cat.objects.all()
     serializer_class = CatSerializer
     filterset_fields = ("id",)
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -70,7 +71,6 @@ class WeightViewset(ModelViewSet):
         return Response({"code": 200, "msg": "新增成功", "data": serializer.data})
 
     def update(self, request, *args, **kwargs):
-
         res = super().update(request, *args, **kwargs)
         return Response({"code": 200, "msg": "修改成功", "data": res.data})
 
