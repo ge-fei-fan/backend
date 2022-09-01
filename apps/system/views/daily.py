@@ -34,5 +34,9 @@ class DailyViewSet(ModelViewSet):
         res = super(DailyViewSet, self).update(request, *args, **kwargs)
         return Response({"code": 200, "msg": "更新成功", "data": res.data})
 
+    def destroy(self, request, *args, **kwargs):
+        super().destroy(request, *args, **kwargs)
+        return Response({"code": 200, "msg": "删除成功", "data": None})
+
 
 

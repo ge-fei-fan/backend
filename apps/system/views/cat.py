@@ -54,7 +54,7 @@ class WeightViewset(ModelViewSet):
 
     queryset = Weight.objects.all()
     serializer_class = WeightSerializer
-    filterset_fields = ("cat", "date")
+    filterset_fields = ("id", "cat", "date")
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
@@ -73,6 +73,12 @@ class WeightViewset(ModelViewSet):
 
         res = super().update(request, *args, **kwargs)
         return Response({"code": 200, "msg": "修改成功", "data": res.data})
+
+    def destroy(self, request, *args, **kwargs):
+        super().destroy(request, *args, **kwargs)
+        return Response({"code": 200, "msg": "删除成功", "data": None})
+
+
 
 
 

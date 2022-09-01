@@ -76,3 +76,25 @@ class FileList(models.Model):
         verbose_name = "文件管理"
         verbose_name_plural = verbose_name
         ordering = ("-create_datetime",)
+
+
+class Pay(models.Model):
+    id = models.BigAutoField(primary_key=True, help_text="Id", verbose_name="Id")
+    update_datetime = models.DateTimeField(auto_now=True, null=True, blank=True, help_text="修改时间", verbose_name="修改时间")
+    create_datetime = models.DateTimeField(auto_now_add=True, null=True, blank=True, help_text="创建时间", verbose_name="创建时间")
+    date = models.DateField(null=True, help_text="支出时间", verbose_name="支出时间")
+    DATASCOPE_CHOICES = (
+        (0, "其他"),
+        (1, "食品"),
+        (2, "医药"),
+        (3, "玩具"),
+    )
+    category = models.IntegerField(default=0, choices=DATASCOPE_CHOICES, verbose_name="类别", help_text="类别")
+    information = models.TextField(verbose_name="明细", help_text="明细", null=True, blank=True)
+    payment = models.FloatField(default=0, help_text="支出金额", verbose_name="支出金额")
+
+    class Meta:
+        db_table = "pay"
+        verbose_name = "支出表"
+        verbose_name_plural = verbose_name
+        ordering = ("date",)
